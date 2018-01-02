@@ -1,0 +1,82 @@
+Public Class frmHotelOccupancy
+    Private Sub btnDetermineOccupancy_Click(sender As Object, e As EventArgs) Handles btnDetermineOccupancy.Click
+
+        Dim decRoomsTotal As Decimal
+        Dim decOccupiedTotal As Decimal
+        Dim decVacanciesTotal As Decimal
+        Dim decOccupancyPercentace As Decimal
+        Dim strOccupancies As String
+        Dim decOccupancies As Decimal
+        Dim strVacancies As String
+        Dim decVacancies As Decimal
+        Dim strNonNumericError As String = "Error - Enter a valid number "
+        Dim strNegativeNumberError As String = "Error - Enter a positive number "
+
+        Dim strInputMessageVacant As String = "Enter the number of Vacant rooms on floor "
+        Dim strInputMessageOccupied As String = "Enter the number of Occupied rooms on floor "
+        Dim strInputHeading As String = "Hotel Occupancy"
+        Dim intFloor As Integer = 1
+        Dim strCancelClicked = ""
+
+        strVacancies = InputBox(strInputMessageVacant & intFloor, strInputHeading, " ")
+        strOccupancies = InputBox(strInputMessageOccupied & intFloor, strInputHeading, " ")
+
+        Do Until intFloor >= 8 Or strVacancies = strCancelClicked Or strOccupancies = strCancelClicked
+
+            If intFloor < 8 Then
+                intFloor += 1
+                If IsNumeric(strVacancies) And IsNumeric(strOccupancies) Then
+                    decVacancies = CDec(strVacancies)
+                    decOccupancies = CDec(strOccupancies)
+
+                    If decVacancies > 0 And decOccupancies > 0 Then
+
+                        lstVacancies.Items.Add(decVacancies)
+                        lstOccupancies.Items.Add(decOccupancies)
+                        decVacanciesTotal += decVacancies
+                        decOccupiedTotal += decOccupancies
+                        decRoomsTotal += decVacancies
+                        decRoomsTotal += decOccupancies
+                    ElseIf decOccupancies < 0 Then
+                        strInputMessageOccupied = strNegativeNumberError
+                    Else
+                        strInputMessageVacant = strNegativeNumberError
+                    End If
+
+                Else
+                    strInputMessageVacant = strNonNumericError
+                    strInputMessageOccupied = strNonNumericError
+                End If
+
+                strVacancies = InputBox(strInputMessageVacant & intFloor, strInputHeading, " ")
+                strOccupancies = InputBox(strInputMessageOccupied & intFloor, strInputHeading, " ")
+            End If
+
+        Loop
+
+        lblRoomsTotal.Visible = True
+        lblOccupiedTotal.Visible = True
+        lblVacanciesTotal.Visible = True
+        lblOccupancyPercentage.Visible = True
+        lblRoomsTotal.Text = decRoomsTotal.ToString
+        lblOccupiedTotal.Text = decOccupiedTotal.ToString
+        lblVacanciesTotal.Text = decVacanciesTotal.ToString
+        decOccupancyPercentace = (decOccupiedTotal / decRoomsTotal)
+        lblOccupancyPercentage.Text = decOccupancyPercentace.ToString("P")
+
+    End Sub
+
+    Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
+        lblRoomsTotal.Visible = False
+        lblOccupiedTotal.Visible = False
+        lblVacanciesTotal.Visible = False
+        lblOccupiedTotal.Visible = False
+        lstVacancies.Items.Clear()
+        lstOccupancies.Items.Clear()
+
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+
+    End Sub
+End Class
