@@ -21,10 +21,10 @@ Public Class frmHotelOccupancy
         strVacancies = InputBox(strInputMessageVacant & intFloor, strInputHeading, " ")
         strOccupancies = InputBox(strInputMessageOccupied & intFloor, strInputHeading, " ")
 
-        Do Until intFloor >= 8 Or strVacancies = strCancelClicked Or strOccupancies = strCancelClicked
+        Do Until intFloor >= 7 Or strVacancies = strCancelClicked Or strOccupancies = strCancelClicked
 
             If intFloor < 8 Then
-                intFloor += 1
+
                 If IsNumeric(strVacancies) And IsNumeric(strOccupancies) Then
                     decVacancies = CDec(strVacancies)
                     decOccupancies = CDec(strOccupancies)
@@ -47,7 +47,7 @@ Public Class frmHotelOccupancy
                     strInputMessageVacant = strNonNumericError
                     strInputMessageOccupied = strNonNumericError
                 End If
-
+                intFloor += 1
                 strVacancies = InputBox(strInputMessageVacant & intFloor, strInputHeading, " ")
                 strOccupancies = InputBox(strInputMessageOccupied & intFloor, strInputHeading, " ")
             End If
