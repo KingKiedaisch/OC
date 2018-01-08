@@ -1,0 +1,85 @@
+Public Class frmHotelOccupancy
+    Private Sub btnDetermineOccupancy_Click(sender As Object, e As EventArgs) Handles btnDetermineOccupancy.Click
+
+        Dim decRoomsTotal As Decimal = 0
+        Dim decOccupiedTotal As Decimal = 0
+        Dim decVacanciesTotal As Decimal = 0
+        Dim decOccupancyPercentace As Decimal
+        Dim decOccupancies As Decimal
+        Dim decVacancies As Decimal
+        Dim strVacantInput As String
+        Dim strOccupiedInput As String
+
+        Dim strNonNumericError As String = "Error - Enter a valid number "
+        Dim strNegativeNumberError As String = "Error - Enter a positive number "
+
+        Dim strInputMessageVacant As String = "Enter the number of Vacant rooms on floor "
+        Dim strInputMessageOccupied As String = "Enter the number of Occupied rooms on floor "
+        Dim strInputHeading As String = "Hotel Occupancy"
+        Dim intFloor As Integer = 1
+        Dim strCancelClicked = ""
+
+        strVacantInput = strInputMessageVacant
+        strOccupiedInput = strInputMessageOccupied
+
+
+
+        Do Until intFloor > 7 Or strVacantInput = strCancelClicked Or strOccupiedInput = strCancelClicked
+
+            If IsNumeric(strVacantInput) And IsNumeric(strOccupiedInput) Then
+
+                strVacantInput = InputBox(strVacantInput & intFloor, strInputHeading, " ")
+                decVacancies = CDec(strVacantInput)
+                While decVacancies < 0
+                    strVacantInput = strNegativeNumberError
+                    strVacantInput = InputBox(strVacantInput & intFloor, strInputHeading, " ")
+                    decVacancies = CDec(strVacantInput)
+                End While
+
+                strOccupiedInput = InputBox(strOccupiedInput & intFloor, strInputHeading, " ")
+                decOccupancies = CDec(strOccupiedInput)
+                While decOccupancies < 0
+                    strOccupiedInput = strNegativeNumberError
+                    strOccupiedInput = InputBox(strOccupiedInput & intFloor, strInputHeading, " ")
+                    decOccupancies = CDec(strOccupiedInput)
+                End While
+
+                lstVacancies.Items.Add(decVacancies)
+                lstOccupancies.Items.Add(decOccupancies)
+                decVacanciesTotal += decVacancies
+                decOccupiedTotal += decOccupancies
+                decRoomsTotal += decVacancies
+                decRoomsTotal += decOccupancies
+
+            End If
+
+            intFloor += 1
+
+        Loop
+
+        lblRoomsTotal.Visible = True
+        lblOccupiedTotal.Visible = True
+        lblVacanciesTotal.Visible = True
+        lblOccupancyPercentage.Visible = True
+        lblRoomsTotal.Text = decRoomsTotal.ToString
+        lblOccupiedTotal.Text = decOccupiedTotal.ToString
+        lblVacanciesTotal.Text = decVacanciesTotal.ToString
+        decOccupancyPercentace = (decOccupiedTotal / decRoomsTotal)
+        lblOccupancyPercentage.Text = decOccupancyPercentace.ToString("P")
+
+    End Sub
+
+    Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
+        lblRoomsTotal.Visible = False
+        lblOccupiedTotal.Visible = False
+        lblVacanciesTotal.Visible = False
+        lblOccupiedTotal.Visible = False
+        lstVacancies.Items.Clear()
+        lstOccupancies.Items.Clear()
+
+    End Sub
+
+    Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
+
+    End Sub
+End Class
